@@ -374,40 +374,6 @@
     {%- endif -%}
 
     {% comment %} smooth scroll {% endcomment %}
-    <script>
-      (function () {
-        const scrollContainer = document.getElementById('smooth-scroll');
-
-        let targetScroll = 0;
-        let currentScroll = 0;
-        const ease = 0.15;
-        const speed = 1.5;
-
-        function setBodyHeight() {
-          document.body.style.height = scrollContainer.getBoundingClientRect().height + 'px';
-        }
-
-        function smoothScroll() {
-          targetScroll = window.scrollY;
-          currentScroll += (targetScroll - currentScroll) * ease;
-
-          scrollContainer.style.transform = `translateY(-${currentScroll}px)`;
-
-          requestAnimationFrame(smoothScroll);
-        }
-
-        window.addEventListener('wheel', (e) => {
-          scroll += e.deltaY * speed;
-          const maxScroll = wrapper.getBoundingClientRect().height - window.innerHeight;
-          scroll = Math.max(0, Math.min(scroll, maxScroll));
-        });
-
-        window.addEventListener('resize', setBodyHeight);
-        window.addEventListener('load', () => {
-          setBodyHeight();
-          smoothScroll();
-        });
-      })();
-    </script>
+    <script src="{{ 'smooth-scroll.js' | asset_url }}" defer></script>
   </body>
 </html>
