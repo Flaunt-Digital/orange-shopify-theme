@@ -1,0 +1,21 @@
+{% schema %}
+{
+  "name": "Test Product Card",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Test Product Card"
+    }
+  ]
+}
+{% endschema %}
+
+{% assign test_product = all_products['product-name-3'] %}
+
+<div class="center">
+  {% if test_product %}
+    {% render 'product-card-multicolour', product: test_product %}
+  {% else %}
+    <p>No product found with that handle.</p>
+  {% endif %}
+</div>
