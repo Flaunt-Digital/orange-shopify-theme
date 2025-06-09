@@ -5,9 +5,26 @@
 {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 {{ 'swiper-bundle.min.js' | asset_url | script_tag }}
 
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
 {% if product_handle != blank and product != null and product.title != blank %}
-  <div class="product-card page-width color-{{ section.settings.color_scheme }}" id="ProductCard-{{ section.id }}">
-    <div class="product-card__layout">
+  <div
+    class="product-colours section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+    id="ProductColours-{{ section.id }}"
+  >
+    <div class="product-colours__layout">
       {% comment %} swiper {% endcomment %}
       <div class="product-carousel swiper">
         <div class="swiper-wrapper">
@@ -30,10 +47,10 @@
         </div>
         <div class="swiper-pagination"></div>
       </div>
-      <div class="product-card__info">
-        <h2 class="product-card__title">{{ product.title }}</h2>
+      <div class="product-colours__info">
+        <h2 class="product-colours__title">{{ product.title }}</h2>
         <hr>
-        <div class="product-card__description">
+        <div class="product-colours__description">
           {{ product.description | strip_html }}
         </div>
         <hr>
@@ -53,14 +70,14 @@
           {% endfor %}
         </ul>
         <hr>
-        <a href="{{ product.url }}" class="product-card__cta">Call to Action</a>
+        <a href="{{ product.url }}" class="product-colours__cta">Call to Action</a>
       </div>
     </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const container = document.querySelector('#ProductCard-{{ section.id }}');
+      const container = document.querySelector('#ProductColours-{{ section.id }}');
       const swatches = container.querySelectorAll('.color-swatch');
       const slides = container.querySelectorAll('.swiper-slide');
 
@@ -103,6 +120,30 @@
       "type": "product",
       "id": "product",
       "label": "Select product"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
     }
   ],
   "presets": [
