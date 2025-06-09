@@ -1,3 +1,9 @@
+.product-colours {
+  max-width: var(--page-width);
+  padding: var(--page-width);
+  margin: var(--page-width);
+}
+
 .product-colours__layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
