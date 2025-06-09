@@ -25,7 +25,6 @@
     id="ProductColours-{{ section.id }}"
   >
     <div class="product-colours__layout">
-      {% comment %} swiper {% endcomment %}
       <div class="product-carousel swiper">
         <div class="swiper-wrapper">
           {% assign unique_colors = '' %}
@@ -40,6 +39,9 @@
                     width="600"
                     height="600"
                   >
+                  <div class="swiper-responsive-container">
+                    <h2>{{ product.title }}</h2>
+                  </div>
                 </div>
               {% endunless %}
             {% endif %}
@@ -49,7 +51,7 @@
       </div>
       <div class="product-colours__info">
         <h2 class="product-colours__title">{{ product.title }}</h2>
-        <hr>
+        <hr class="product-colours__divider">
         <div class="product-colours__description">
           {{ product.description | strip_html }}
         </div>
