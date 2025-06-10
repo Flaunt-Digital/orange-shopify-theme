@@ -38,3 +38,18 @@
 .featured-artists-products__card {
   overflow: hidden;
 }
+
+@media screen and (max-width: 989px) {
+  .featured-artists-products__text {
+    max-width: 60%;
+  }
+  .featured-artists-products__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .featured-artists-products__text {
+    max-width: 100%;
+  }
+}
