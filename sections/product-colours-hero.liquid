@@ -1,11 +1,11 @@
-{% assign product_handle = section.settings.product %}
-{% assign product = all_products[product_handle] %}
-
 {{ 'section-product-colours-hero.css' | asset_url | stylesheet_tag }}
 {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
-{{ 'swiper-bundle.min.js' | asset_url | script_tag }}
+<script defer src="{{ 'swiper-bundle.min.js' | asset_url | script_tag }}">
 
-{% if product_handle != blank and product != null and product.title != blank %}
+{% assign product = product %}
+
+
+{% if product != null and product.title != blank %}
   <div class="product-card page-width color-{{ section.settings.color_scheme }}" id="ProductCard-{{ section.id }}">
     <div class="product-card__layout">
       {% comment %} swiper {% endcomment %}
@@ -36,23 +36,33 @@
         <div class="product-card__description">
           {{ product.description | strip_html }}
         </div>
-        <hr>
-        <ul class="color-swatches">
-          {% assign unique_colors = '' %}
-          {% for variant in product.variants %}
-            {% unless unique_colors contains variant.option1 %}
-              {% assign unique_colors = unique_colors | append: variant.option1 | append: ',' %}
-              <li
-                class="color-swatch"
-                data-color="{{ variant.option1 | downcase }}"
-                data-variant="{{ variant.id }}"
-              >
-                <span style="background-color: {{ variant.option1 | downcase }}"></span>
-              </li>
-            {% endunless %}
-          {% endfor %}
-        </ul>
-        <hr>
+        {% assign unique_colors = '' %}
+        {% assign unique_colors_count = 0 %}
+        {% for variant in product.variants %}
+          {% unless unique_colors contains variant.option1 %}
+            {% assign unique_colors = unique_colors | append: variant.option1 | append: ',' %}
+            {% assign unique_colors_count = unique_colors_count | plus: 1 %}
+          {% endunless %}
+        {% endfor %}
+          <hr>
+        {% if unique_colors_count > 1 %}
+          <ul class="color-swatches">
+            {% assign unique_colors = '' %}
+            {% for variant in product.variants %}
+              {% unless unique_colors contains variant.option1 %}
+                {% assign unique_colors = unique_colors | append: variant.option1 | append: ',' %}
+                <li
+                  class="color-swatch"
+                  data-color="{{ variant.option1 | downcase }}"
+                  data-variant="{{ variant.id }}"
+                >
+                  <span style="background-color: {{ variant.option1 | downcase }}"></span>
+                </li>
+              {% endunless %}
+            {% endfor %}
+          </ul>
+          <hr>
+        {% endif %}
         <a href="{{ product.url }}" class="product-card__cta">Call to Action</a>
       </div>
     </div>
@@ -98,11 +108,6 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
-    },
-    {
-      "type": "product",
-      "id": "product",
-      "label": "Select product"
     }
   ],
   "presets": [
