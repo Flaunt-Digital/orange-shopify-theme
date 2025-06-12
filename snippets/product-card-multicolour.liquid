@@ -1,15 +1,21 @@
-{% if product %}
+{% if product and product.title and product.price %}
   {% assign unique_images = '' %}
   {% assign unique_image_count = 0 %}
-  {% for variant in product.variants %}
-    {% if variant.featured_image %}
-      {% assign image_url = variant.featured_image | image_url: width: 500 %}
-      {% unless unique_images contains image_url %}
-        {% assign unique_images = unique_images | append: image_url | append: ',' %}
-        {% assign unique_image_count = unique_image_count | plus: 1 %}
-      {% endunless %}
-    {% endif %}
-  {% endfor %}
+  {% if product.variants and product.variants.size > 0 %}
+    {% for variant in product.variants %}
+      {% if variant.featured_image %}
+        {% assign image_url = variant.featured_image | image_url: width: 500 %}
+        {% unless unique_images contains image_url %}
+          {% assign unique_images = unique_images | append: image_url | append: ',' %}
+          {% assign unique_image_count = unique_image_count | plus: 1 %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  {% if unique_image_count == 0 and product.featured_image %}
+    {% assign unique_image_count = 1 %}
+  {% endif %}
 
   {% assign use_swiper = false %}
   {% if unique_image_count > 1 %}
@@ -22,25 +28,27 @@
         <div class="{% if use_swiper %}product-card-swiper{% endif %} tabbed-product-card__slider">
           <div class="swiper-wrapper">
             {% assign rendered_images = '' %}
-            {% for variant in product.variants %}
-              {% if variant.featured_image %}
-                {% assign image_url = variant.featured_image | image_url: width: 500 %}
-                {% unless rendered_images contains image_url %}
-                  {% assign rendered_images = rendered_images | append: image_url | append: ',' %}
-                  <div class="swiper-slide">
-                    <img
-                      class="tabbed-product-card__image"
-                      src="{{ image_url }}"
-                      alt="{{ product.title | escape }} - {{ variant.title }}"
-                      width="500"
-                      height="500"
-                    >
-                  </div>
-                {% endunless %}
-              {% endif %}
-            {% endfor %}
+            {% if product.variants and product.variants.size > 0 %}
+              {% for variant in product.variants %}
+                {% if variant.featured_image %}
+                  {% assign image_url = variant.featured_image | image_url: width: 500 %}
+                  {% unless rendered_images contains image_url %}
+                    {% assign rendered_images = rendered_images | append: image_url | append: ',' %}
+                    <div class="swiper-slide">
+                      <img
+                        class="tabbed-product-card__image"
+                        src="{{ image_url }}"
+                        alt="{{ product.title | escape }} - {{ variant.title }}"
+                        width="500"
+                        height="500"
+                      >
+                    </div>
+                  {% endunless %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
 
-            {% if product.variants.size == 1 %}
+            {% if rendered_images == '' and product.featured_image %}
               <div class="swiper-slide">
                 <img
                   class="tabbed-product-card__image"
@@ -69,10 +77,13 @@
       </div>
     </div>
   </a>
+{% else %}
+  {%- comment -%} Product missing or invalid: {{ product | json }} {%- endcomment -%}
 {% endif %}
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    // Always try to initialize Swiper if .product-card-swiper exists
     if (document.querySelector('.product-card-swiper')) {
       new Swiper('.product-card-swiper', {
         loop: true,

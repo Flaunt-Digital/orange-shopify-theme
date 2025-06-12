@@ -1,7 +1,8 @@
 .featured-artists-page-width {
   margin: 0 auto;
-  max-width: 200rem;
+  max-width: 150rem;
   padding: 0 4rem;
+  position: relative;
 }
 .featured-artists-products__header {
   padding: 5rem 2rem;
@@ -21,6 +22,7 @@
   height: 100%;
 }
 .featured-artists-products__products {
+  min-height: 50rem;
   text-align: center;
 }
 .featured-artists-products__grid {
@@ -47,8 +49,65 @@
   font-weight: bold;
 }
 
-@media screen and (max-width: 1578px) {
-  .featured-artists-products__grid {
-    justify-content: flex-start;
+/* swiper pagination */
+
+.featured-artists-products .swiper-button-next,
+.featured-artists-products .swiper-button-prev {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 4rem;
+  height: 4rem;
+}
+
+.featured-artists-products .swiper-button-next {
+  left: 100%;
+}
+
+.featured-artists-products .swiper-button-prev {
+  right: 100%;
+  left: auto !important;
+}
+
+.featured-artists-products .swiper-button-next::after,
+.featured-artists-products .swiper-button-prev::after {
+  content: '' !important;
+}
+
+.featured-artists-products .swiper-pagination-bullet {
+  background-color: #000 !important;
+  width: 10px;
+  height: 10px;
+  margin: 0 6px;
+  opacity: 1;
+  transition: transform 0.3s ease;
+  border-radius: 50%;
+}
+
+.featured-artists-products .swiper-pagination-bullet-active {
+  transform: scale(1.5);
+}
+
+.featured-artists-products__swiper {
+  min-height: 43rem;
+}
+
+.featured-artists-products .swiper-button-next svg,
+.featured-artists-products .swiper-button-prev svg {
+  display: block;
+  height: 4rem;
+  width: 4rem;
+  color: #000;
+}
+
+@media screen and (max-width: 1700px) {
+  .featured-artists-products .swiper-button-next,
+  .featured-artists-products .swiper-button-prev {
+    display: none;
   }
 }
