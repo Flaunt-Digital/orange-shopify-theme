@@ -9,31 +9,41 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "slideshow_E6fY3W": {
+      "type": "slideshow",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "slide_WayUmT": {
+          "type": "slide",
           "settings": {
-            "heading": "Orange British Guitar Amps",
-            "heading_size": "h0"
+            "image": "shopify://shop_images/0f1372e78f25b95fbdfcf3e940004de8b55e1206.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "Block Header",
+            "heading_size": "h1",
+            "subheading": "Product Name",
+            "button_label": "Call to Action",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
           }
         }
       },
       "block_order": [
-        "heading"
+        "slide_WayUmT"
       ],
+      "name": "t:sections.slideshow.presets.name",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
+        "layout": "full_bleed",
+        "slide_height": "large",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
         "image_behavior": "none",
-        "desktop_content_position": "bottom-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "scheme-3",
-        "stack_images_on_mobile": false,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
       }
     },
     "tabbed_products_zxP3ND": {
@@ -84,7 +94,6 @@
         "collection_tab_zAgTWn",
         "collection_tab_VaLdVA"
       ],
-      "name": "Tabbed Products Block",
       "settings": {
         "color_scheme": "",
         "section-title": "We're obsessed with good music",
@@ -96,7 +105,6 @@
     },
     "campaign_block_JdXYH9": {
       "type": "campaign-block",
-      "name": "Campaign Block",
       "settings": {
         "color_scheme": "",
         "text_overlapping": true,
@@ -111,7 +119,6 @@
     },
     "image_text_stack_Fmz3J9": {
       "type": "image-text-stack",
-      "name": "Image Text Stack",
       "settings": {
         "color_scheme": "",
         "image_1": "shopify://shop_images/Rectangle_120.jpg",
@@ -139,7 +146,6 @@
       "block_order": [
         "heading_X7GcjN"
       ],
-      "name": "t:sections.rich-text.presets.name",
       "settings": {
         "desktop_content_position": "center",
         "content_alignment": "center",
@@ -171,7 +177,6 @@
         "quote_text_HEBbtz",
         "quote_text_zAaYed"
       ],
-      "name": "Quote Carousel",
       "settings": {
         "color_scheme": "",
         "padding_top": 36,
@@ -180,7 +185,6 @@
     },
     "campaign_block_cEbP3y": {
       "type": "campaign-block",
-      "name": "Campaign Block",
       "settings": {
         "color_scheme": "",
         "text_overlapping": false,
@@ -286,7 +290,6 @@
       "block_order": [
         "heading_FGFTqb"
       ],
-      "name": "t:sections.rich-text.presets.name",
       "settings": {
         "desktop_content_position": "center",
         "content_alignment": "center",
@@ -327,7 +330,6 @@
         "award_image_aEyt3F",
         "award_image_fWbxin"
       ],
-      "name": "Awards Carousel",
       "settings": {
         "color_scheme": "",
         "padding_top": 36,
@@ -336,7 +338,7 @@
     }
   },
   "order": [
-    "image_banner",
+    "slideshow_E6fY3W",
     "tabbed_products_zxP3ND",
     "campaign_block_JdXYH9",
     "image_text_stack_Fmz3J9",
