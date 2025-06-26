@@ -1,0 +1,25 @@
+{% assign card_class = 'product-category-card' %}
+{% if modifier %}
+  {% assign card_class = card_class | append: ' ' | append: modifier %}
+{% endif %}
+
+<div class="{{ card_class }}">
+  <a href="{{ product.url }}">
+    <img
+      {% if product.featured_media %}
+        src="{{ product.featured_media | image_url: width: image_width }}"
+      {% else %}
+        src="{{ 'no-image.webp' | asset_url }}"
+        alt="No image available"
+      {% endif %}
+      alt="{{ product.featured_media.alt | escape }}"
+      class="product-category-card__image{% if image_modifier %} {{ image_modifier }}{% endif %}"
+      width="{{ image_width }}"
+      height="{{ image_width }}"
+    >
+  </a>
+  <div class="product-category-card__content">
+    <h3 class="product-category-card__title">{{ product.title }}</h3>
+    <div class="product-category-card__price">{{ product.price | money }}</div>
+  </div>
+</div>

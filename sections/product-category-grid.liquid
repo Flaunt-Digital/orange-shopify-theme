@@ -14,88 +14,124 @@
   }
 {%- endstyle -%}
 
-<div class="product-category-grid section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-  {% if collection and collection.products.size > 0 %}
-    <!-- Featured + Two Stacked Layout -->
-    <div class="product-grid-featured">
-      <!-- Featured Product (3/4 width) -->
-      <div class="product-grid-featured__main">
-        {% assign featured_product = collection.products.first %}
-        <div class="product-card product-card--featured">
-          <a href="{{ featured_product.url }}">
-            {% if featured_product.featured_media %}
-              <img
-                src="{{ featured_product.featured_media | image_url: width: 800 }}"
-                alt="{{ featured_product.featured_media.alt | escape }}"
-                class="product-card__image"
-                width="800"
-                height="800"
-              >
-            {% else %}
-              {{ 'product-1' | placeholder_svg_tag: 'product-card__image' }}
-            {% endif %}
-          </a>
-          <div class="product-card__content">
-            <h3 class="product-card__title">{{ featured_product.title }}</h3>
-            <div class="product-card__price">{{ featured_product.price | money }}</div>
-          </div>
-        </div>
-      </div>
+<div class="product-category-grid page-width section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+  {% if collection.products.size > 0 %}
+    {% assign featured_product = blank %}
+    {% for product in collection.products %}
+      {% if product.tags contains 'featured' %}
+        {% assign featured_product = product %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+    {% unless featured_product %}
+      {% assign featured_product = collection.products.first %}
+    {% endunless %}
 
-      <!-- Two Stacked Products (1/4 width) -->
-      <div class="product-grid-featured__side">
-        {% for product in collection.products offset: 1 limit: 2 %}
-          <div class="product-card product-card--small">
-            <a href="{{ product.url }}">
-              {% if product.featured_media %}
-                <img
-                  src="{{ product.featured_media | image_url: width: 400 }}"
-                  alt="{{ product.featured_media.alt | escape }}"
-                  class="product-card__image"
-                  width="400"
-                  height="400"
-                >
-              {% else %}
-                {{ 'product-1' | placeholder_svg_tag: 'product-card__image' }}
-              {% endif %}
-            </a>
-            <div class="product-card__content">
-              <h3 class="product-card__title">{{ product.title }}</h3>
-              <div class="product-card__price">{{ product.price | money }}</div>
-            </div>
-          </div>
+    <div class="product-category-grid-featured">
+      <div class="product-category-grid-featured__main">
+        {% render 'product-category-card',
+          product: featured_product,
+          modifier: 'product-category-card--featured',
+          image_width: 800,
+          image_modifier: 'product-category-card__image--featured'
+        %}
+      </div>
+      <div class="product-category-grid-featured__side">
+        {% assign side_count = 0 %}
+        {% for product in collection.products %}
+          {% unless product.id == featured_product.id %}
+            {% if side_count < 2 %}
+              {% render 'product-category-card',
+                product: product,
+                modifier: 'product-category-card--small',
+                image_width: 400
+              %}
+              {% assign side_count = side_count | plus: 1 %}
+            {% endif %}
+          {% endunless %}
         {% endfor %}
       </div>
     </div>
-
-    <!-- 3x3 Grid of Remaining Products -->
-    {% if collection.products.size > 3 %}
-      <div class="product-grid-regular">
-        {% for product in collection.products offset: 3 limit: 9 %}
-          <div class="product-card">
-            <a href="{{ product.url }}">
-              {% if product.featured_media %}
-                <img
-                  src="{{ product.featured_media | image_url: width: 400 }}"
-                  alt="{{ product.featured_media.alt | escape }}"
-                  class="product-card__image"
-                  width="400"
-                  height="400"
-                >
+    {% assign total_grid_products = collection.products.size | minus: 3 %}
+    {% if total_grid_products > 0 %}
+      <div class="product-category-grid-regular">
+        {% assign grid_count = 0 %}
+        {% assign skip_count = 0 %}
+        {% for product in collection.products %}
+          {% unless product.id == featured_product.id %}
+            {% if skip_count < 2 %}
+              {% assign skip_count = skip_count | plus: 1 %}
+            {% else %}
+              {% if grid_count < 6 %}
+                <div class="product-category-card{% if grid_count >= 6 %} product-category-card--hidden{% endif %}">
+                  <a href="{{ product.url }}">
+                    <img
+                      {% if product.featured_media %}
+                        src="{{ product.featured_media | image_url: width: 400 }}"
+                        alt="{{ product.featured_media.alt | escape }}"
+                      {% else %}
+                        src="{{ 'no-image.webp' | asset_url }}"
+                        alt="No image available"
+                      {% endif %}
+                      class="product-category-card__image"
+                      width="400"
+                      height="400"
+                    >
+                  </a>
+                  <div class="product-category-card__content">
+                    <h3 class="product-category-card__title">{{ product.title }}</h3>
+                    <div class="product-category-card__price">{{ product.price | money }}</div>
+                  </div>
+                </div>
               {% else %}
-                {{ 'product-1' | placeholder_svg_tag: 'product-card__image' }}
+                <div class="product-category-card product-category-card--hidden">
+                  <a href="{{ product.url }}">
+                    <img
+                      {% if product.featured_media %}
+                        src="{{ product.featured_media | image_url: width: 400 }}"
+                        alt="{{ product.featured_media.alt | escape }}"
+                      {% else %}
+                        src="{{ 'no-image.webp' | asset_url }}"
+                        alt="No image available"
+                      {% endif %}
+                      class="product-category-card__image"
+                      width="400"
+                      height="400"
+                    >
+                  </a>
+                  <div class="product-category-card__content">
+                    <h3 class="product-category-card__title">{{ product.title }}</h3>
+                    <div class="product-category-card__price">{{ product.price | money }}</div>
+                  </div>
+                </div>
               {% endif %}
-            </a>
-            <div class="product-card__content">
-              <h3 class="product-card__title">{{ product.title }}</h3>
-              <div class="product-card__price">{{ product.price | money }}</div>
-            </div>
-          </div>
+              {% assign grid_count = grid_count | plus: 1 %}
+            {% endif %}
+          {% endunless %}
         {% endfor %}
       </div>
+
+      {% if total_grid_products > 6 %}
+        <div class="product-category-load-more">
+          <button class="product-category-load-more__button" onclick="loadMoreProducts()">Load More</button>
+        </div>
+      {% endif %}
     {% endif %}
   {% endif %}
 </div>
+
+<script>
+  function loadMoreProducts() {
+    const hiddenProducts = document.querySelectorAll('.product-category-card--hidden');
+    const loadMoreButton = document.querySelector('.product-category-load-more__button');
+
+    hiddenProducts.forEach((product) => {
+      product.classList.remove('product-category-card--hidden');
+    });
+
+    loadMoreButton.style.display = 'none';
+  }
+</script>
 
 {% schema %}
 {
