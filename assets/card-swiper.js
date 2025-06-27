@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
     swiperInstances = []; // Initialize new swiper instances for cards with multiple images
-    const swiperSelectors = ['.card-swiper', '.tabbed-product-swiper', '.featured-artist-swiper'];
+    const swiperSelectors = ['.card-swiper', '.tabbed-product-swiper', '.featured-artist-swiper', '.product-category-swiper'];
 
     swiperSelectors.forEach((selector) => {
       document.querySelectorAll(selector).forEach((swiperEl) => {
@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (selector === '.featured-artist-swiper') {
           progressBar = swiperEl.parentElement.querySelector('.featured-artist-card__progress-bar');
           cardLink = swiperEl.closest('.featured-artist-card-link');
+        } else if (selector === '.product-category-swiper') {
+          progressBar = swiperEl.parentElement.querySelector('.product-category-card__progress-bar');
+          cardLink = swiperEl.closest('a');
         } else {
           progressBar = swiperEl.parentElement.querySelector('.card__progress-bar');
           cardLink = swiperEl.closest('.card-link');

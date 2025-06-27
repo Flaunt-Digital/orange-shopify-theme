@@ -1,4 +1,8 @@
 {{ 'section-product-category-grid.css' | asset_url | stylesheet_tag }}
+{{ 'component-product-category-card.css' | asset_url | stylesheet_tag }}
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+<script src="{{ 'card-swiper.js' | asset_url }}" defer></script>
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -14,7 +18,7 @@
   }
 {%- endstyle -%}
 
-<div class="product-category-grid page-width section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+<div class="product-category-grid section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
   {% if collection.products.size > 0 %}
     {% assign featured_product = blank %}
     {% for product in collection.products %}
@@ -27,7 +31,7 @@
       {% assign featured_product = collection.products.first %}
     {% endunless %}
 
-    <div class="product-category-grid-featured">
+    <div class="product-category-grid-featured page-width">
       <div class="product-category-grid-featured__main">
         {% render 'product-category-card',
           product: featured_product,
@@ -54,7 +58,7 @@
     </div>
     {% assign total_grid_products = collection.products.size | minus: 3 %}
     {% if total_grid_products > 0 %}
-      <div class="product-category-grid-regular">
+      <div class="product-category-grid-regular page-width">
         {% assign grid_count = 0 %}
         {% assign skip_count = 0 %}
         {% for product in collection.products %}
@@ -62,49 +66,11 @@
             {% if skip_count < 2 %}
               {% assign skip_count = skip_count | plus: 1 %}
             {% else %}
-              {% if grid_count < 6 %}
-                <div class="product-category-card{% if grid_count >= 6 %} product-category-card--hidden{% endif %}">
-                  <a href="{{ product.url }}">
-                    <img
-                      {% if product.featured_media %}
-                        src="{{ product.featured_media | image_url: width: 400 }}"
-                        alt="{{ product.featured_media.alt | escape }}"
-                      {% else %}
-                        src="{{ 'no-image.webp' | asset_url }}"
-                        alt="No image available"
-                      {% endif %}
-                      class="product-category-card__image"
-                      width="400"
-                      height="400"
-                    >
-                  </a>
-                  <div class="product-category-card__content">
-                    <h3 class="product-category-card__title">{{ product.title }}</h3>
-                    <div class="product-category-card__price">{{ product.price | money }}</div>
-                  </div>
-                </div>
-              {% else %}
-                <div class="product-category-card product-category-card--hidden">
-                  <a href="{{ product.url }}">
-                    <img
-                      {% if product.featured_media %}
-                        src="{{ product.featured_media | image_url: width: 400 }}"
-                        alt="{{ product.featured_media.alt | escape }}"
-                      {% else %}
-                        src="{{ 'no-image.webp' | asset_url }}"
-                        alt="No image available"
-                      {% endif %}
-                      class="product-category-card__image"
-                      width="400"
-                      height="400"
-                    >
-                  </a>
-                  <div class="product-category-card__content">
-                    <h3 class="product-category-card__title">{{ product.title }}</h3>
-                    <div class="product-category-card__price">{{ product.price | money }}</div>
-                  </div>
-                </div>
+              {% assign hidden_class = '' %}
+              {% if grid_count >= 6 %}
+                {% assign hidden_class = 'product-category-card--hidden' %}
               {% endif %}
+              {% render 'product-category-card', product: product, modifier: hidden_class, image_width: 400 %}
               {% assign grid_count = grid_count | plus: 1 %}
             {% endif %}
           {% endunless %}
@@ -113,7 +79,9 @@
 
       {% if total_grid_products > 6 %}
         <div class="product-category-load-more">
-          <button class="product-category-load-more__button" onclick="loadMoreProducts()">Load More</button>
+          <button class="product-category-load-more__button button button--primary" onclick="loadMoreProducts()">
+            Load More
+          </button>
         </div>
       {% endif %}
     {% endif %}

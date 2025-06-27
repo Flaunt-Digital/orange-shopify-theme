@@ -46,7 +46,7 @@
 }
 
 .product-category-hero__content {
-  padding: 7rem 0;
+  padding: 10rem 0;
   text-align: center;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .product-category-hero__title {
-  margin-bottom: 2rem;
+  margin: 0 0 2rem 0;
   text-transform: uppercase;
   font-family: var(--font-body-black);
 }
