@@ -5,7 +5,8 @@
   text-align: left;
   scroll-snap-align: start;
   width: 100%;
-  height: auto;
+  height: min-content;
+  border-radius: var(--corner-radius);
 }
 
 .product-category-card a {
@@ -17,12 +18,10 @@
 
 .product-category-card__image-wrapper {
   position: relative;
-  margin-bottom: 2rem;
   overflow: hidden;
   border-radius: var(--product-card-corner-radius);
   width: 100%;
-  aspect-ratio: 1;
-  max-width: var(--max-width-sm);
+  max-width: 32rem;
 }
 
 .product-category-card__image {
@@ -30,46 +29,23 @@
   height: 25.7rem;
   object-fit: cover;
   border-radius: var(--product-card-corner-radius);
+  aspect-ratio: 1;
 }
 
 .product-category-card__content {
   display: flex;
   flex-direction: column;
   margin-top: auto;
+  padding: 1rem 0 0 0;
 }
 
 .product-category-card__title {
   text-transform: uppercase;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
 }
 
 .product-category-card__price {
   margin: 0.5rem 0 0 0;
-}
-
-.product-category-swiper {
-  width: 100%;
-  height: 100%;
-  border-radius: var(--product-card-corner-radius);
-  overflow: hidden;
-}
-
-.product-category-swiper .swiper-wrapper {
-  height: 100%;
-}
-
-.product-category-swiper .swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.product-category-swiper .product-category-card__image {
-  width: 100%;
-  height: 25.7rem;
-  object-fit: cover;
-  border-radius: var(--product-card-corner-radius);
 }
 
 .product-category-card__progress {
@@ -98,38 +74,25 @@
   display: none;
 }
 
-/* Show progress bar on mobile */
-@media screen and (max-width: 950px) {
-  .product-category-card__progress {
-    display: block;
-  }
-}
-
-/* Modifier classes for different card sizes */
 .product-category-card--featured {
   width: 100%;
   height: auto;
 }
 
 .product-category-card--featured .product-category-card__image-wrapper {
-  aspect-ratio: 1;
-  max-width: var(--max-width-lg);
+  max-width: 76rem;
 }
 
-.product-category-card--featured .product-category-card__image {
-  height: 100%; /* Override fixed height for featured cards */
-}
-
-.product-category-card--small {
-  width: 100%;
-  height: auto;
-}
-
-.product-category-card--small .product-category-card__image-wrapper {
-  aspect-ratio: 1;
-  max-width: var(--max-width-sm);
+.product-category-card__image--featured {
+  height: 60rem;
 }
 
 .product-category-card--hidden {
   display: none;
+}
+
+@media screen and (max-width: 950px) {
+  .product-category-card__progress {
+    display: block;
+  }
 }
